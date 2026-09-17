@@ -1,0 +1,72 @@
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+
+# Python environments and caches
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+build/
+.pytest_cache/
+.mypy_cache/
+.pyright/
+.ruff_cache/
+.tox/
+.nox/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Local databases
+*.sqlite
+*.sqlite3
+*.db
+
+# Node.js and Vite
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Generated project data (keep small test fixtures in Git)
+/storage/datasets/
+/storage/model-artifacts/
+/storage/reports/
+/backend/storage/
+/frontend/coverage/
+
+# Temporary files and logs
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+tmp/
+temp/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini

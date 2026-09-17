@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+python-multipart
+
+sqlalchemy
+alembic
+psycopg[binary]
+
+PyJWT
+pwdlib[argon2]
+
+pytest
+pytest-cov
+httpx
