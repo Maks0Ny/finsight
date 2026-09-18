@@ -12,3 +12,5 @@ pwdlib[argon2]
 pytest
 pytest-cov
 httpx
+
+pydantic
