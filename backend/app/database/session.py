@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
-from core.config import settings
+from backend.app.core.config import settings
 from collections.abc import Iterator
 
 # Создание подключения к базе данных c логгирвоанием SQL-запросов

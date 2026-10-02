@@ -8,9 +8,6 @@ class UserCreateRequest(BaseModel):
     second_name: str = Field(..., max_length=50)
     middle_name: str | None = Field(None, max_length=50)
     
-    created_at: str
-    updated_at: str
-    registered_at: str
     
 
 class UserProfileUpdateRequest(BaseModel):

@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     
     
     # Настройки для подключения к бд
-    model_config = SettingsConfigDict(env_file=".env", 
+    model_config = SettingsConfigDict(env_file="D:/Projects/VScode_Projects/FinSight/.env", 
                                       env_file_encoding="utf-8",
                                       extra="ignore")
     
@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     # Метод для создания URL подключения к базе данных PostgreSQL
     def db_url(self) -> URL:
         return URL.create(
-            "postgresql+psycopg2",
+            "postgresql+psycopg",
             username=self.dp_user,
             password=self.dp_password,
             host=self.dp_host,

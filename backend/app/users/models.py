@@ -1,5 +1,5 @@
-from database.base import Base
-from sqlalchemy import String, DateTime
+from backend.app.database.base import Base
+from sqlalchemy import String, DateTime, Identity
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -7,7 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(Identity(), primary_key=True)
     
     email: Mapped[str] = mapped_column(
             String(255),
@@ -44,12 +44,12 @@ class User(Base):
     is_verified_phone: Mapped[bool]
     is_supervise: Mapped[bool]'''
     
-    created_at: Mapped[str] = mapped_column(DateTime, 
+    created_at: Mapped[str] = mapped_column(DateTime(timezone=True), 
                                             nullable=False)
-    updated_at: Mapped[str] = mapped_column(DateTime, 
+    updated_at: Mapped[str] = mapped_column(DateTime(timezone=True), 
                                             nullable=False)
-    last_login_at: Mapped[str] = mapped_column(DateTime, 
-                                               nullable=False)
+    last_login_at: Mapped[str | None] = mapped_column(DateTime(timezone=True), 
+                                               nullable=True)
     '''status: Mapped[str]'''
     
     

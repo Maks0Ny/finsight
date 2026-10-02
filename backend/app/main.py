@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from app.health.router import router as health_router
+from backend.app.health.router import router as health_router
 
-from app.users.router import router as user_router
-from app.users.errors import AppError
+from backend.app.users.router import router as user_router
+from backend.app.users.errors import AppError
 
 
 
