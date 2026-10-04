@@ -1,6 +1,8 @@
 # FinSight: отдельная схема каждой таблицы
 
-Дата: 02.10.2026. Проект, без применения миграций.
+Дата: 02.10.2026; авторизация дополнена 03.10.2026. Проект, без применения миграций.
+
+Всего 16 таблиц. Сессии и история refresh-токенов описаны в AUTH_ARCHITECTURE.md.
 
 PK — первичный ключ; FK — внешний ключ; UK — уникальное поле. NULL — допускается отсутствие значения; Б — основной контракт; Р — расширение. Последний столбец каждой схемы кратко объясняет назначение колонки. Остальные поля NOT NULL. NUMERIC_28_8 означает SQL NUMERIC(28,8); DOUBLE_PRECISION означает DOUBLE PRECISION. CHECK, составные FK/UNIQUE и правила обработки описаны в DATABASE_DATA_DICTIONARY.md.
 
@@ -28,7 +30,7 @@ erDiagram
         TIMESTAMPTZ updated_at "Когда изменено; Б"
         TIMESTAMPTZ last_login_at "Последний успешный вход; NULL; Б"
         TIMESTAMPTZ password_changed_at "Когда сменили пароль; NULL; Р"
-        INTEGER auth_version "версия отзыва токенов; требует проверки в auth; Р"
+        INTEGER auth_version "Версия отзыва токенов; Б"
         TIMESTAMPTZ email_verified_at "факт подтверждения email; NULL; Р"
         VARCHAR(32) phone "Номер телефона; NULL; Р"
         TIMESTAMPTZ phone_verified_at "Когда подтвердили телефон; NULL; Р"
@@ -603,5 +605,67 @@ erDiagram
         UUID fetch_request_id "ID запроса получения курса; NULL; Р"
         VARCHAR(40) parser_version "Версия парсера ответа; NULL; Р"
         JSONB response_metadata_json "разрешённые HTTP метаданные и длительность; Р"
+    }
+```
+
+## 15. auth_sessions — сессия входа
+
+```mermaid
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#dbeafe"
+    primaryBorderColor: "#2563eb"
+    primaryTextColor: "#172554"
+---
+erDiagram
+    auth_sessions {
+        UUID id PK "Семейство токенов/ID входа"
+        BIGINT user_id FK "Владелец"
+        INTEGER auth_version_at_creation "Версия users.auth_version при входе"
+        TIMESTAMPTZ created_at "Начало сессии"
+        TIMESTAMPTZ absolute_expires_at "Непереносимый предельный срок"
+        TIMESTAMPTZ idle_expires_at "Предел по неактивности"
+        TIMESTAMPTZ last_seen_at "Последний авторизованный запрос"
+        TIMESTAMPTZ last_refreshed_at "Последний вход или refresh"
+        TIMESTAMPTZ revoked_at "Когда отозвали; NULL"
+        VARCHAR(80) revocation_reason "Причина отзыва; NULL"
+        BIGINT revoked_by_user_id FK "Кто отозвал; NULL"
+        UUID csrf_nonce "Несекретная привязка CSRF к сессии"
+        VARCHAR(30) login_method "Способ входа"
+        VARCHAR(150) device_label "Название устройства; NULL"
+        TEXT user_agent "Клиент при входе; NULL"
+        INET created_ip "IP при входе; NULL"
+        INET last_seen_ip "Последний наблюдаемый IP; NULL"
+        UUID login_request_id "Корреляция запроса входа; NULL"
+    }
+```
+
+## 16. auth_refresh_tokens — неизменяемые поколения refresh
+
+```mermaid
+---
+config:
+  theme: base
+  themeVariables:
+    primaryColor: "#dbeafe"
+    primaryBorderColor: "#2563eb"
+    primaryTextColor: "#172554"
+---
+erDiagram
+    auth_refresh_tokens {
+        UUID id PK "ID выпуска, не секрет"
+        UUID session_id FK "Семейство"
+        BYTEA token_digest UK "SHA-256 секрета"
+        INTEGER generation "Порядковый номер, первый 0"
+        UUID parent_token_id FK "Предыдущее поколение; NULL"
+        TIMESTAMPTZ issued_at "Выпуск"
+        TIMESTAMPTZ expires_at "Срок этого поколения"
+        TIMESTAMPTZ consumed_at "Когда один раз обменяли; NULL"
+        TIMESTAMPTZ revoked_at "Явный отзыв текущего поколения; NULL"
+        VARCHAR(80) revocation_reason "Причина; NULL"
+        UUID issued_request_id "Запрос выпуска; NULL"
+        UUID consumed_request_id "Запрос обмена; NULL"
     }
 ```

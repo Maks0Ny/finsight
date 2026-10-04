@@ -1,7 +1,7 @@
 # FinSight: расширенный словарь данных
 
 Дата: 02.10.2026. Статус: проектирование, без применения к рабочей БД.
-Дополняет DATABASE_ARCHITECTURE.md. Ниже описана целевая версия всех 14 таблиц: имена некоторых полей уточнены, новые поля добавляются будущими миграциями. Это не описание уже работающего приложения.
+Дополняет DATABASE_ARCHITECTURE.md. Ниже описана целевая версия 16 таблиц, включая авторизацию, уточнённую 03.10.2026: имена некоторых полей уточнены, новые поля добавляются будущими миграциями. Это не описание уже работающего приложения.
 
 Отдельные цветные схемы всех таблиц со всеми именами колонок и типами: [DATABASE_TABLE_DIAGRAMS.md](DATABASE_TABLE_DIAGRAMS.md).
 
@@ -17,6 +17,8 @@
 
 ## 1. users — аккаунт и настройки
 
+Полный контракт регистрации, профиля, статусов и связей с организациями: [USERS_ARCHITECTURE.md](USERS_ARCHITECTURE.md).
+
 | Колонки | Тип | Уровень и назначение |
 |---|---|---|
 | id | BIGINT PK | Б: идентификатор |
@@ -28,7 +30,7 @@
 | created_at, updated_at | TIMESTAMPTZ | Б: создание и изменение |
 | last_login_at? | TIMESTAMPTZ | Б: последний успешный вход |
 | password_changed_at? | TIMESTAMPTZ | Р: время смены пароля |
-| auth_version | INTEGER DEFAULT 0 | Р: версия отзыва токенов; требует проверки в auth |
+| auth_version | INTEGER DEFAULT 0 | Б: версия отзыва токенов при реализованной авторизации |
 | email_verified_at? | TIMESTAMPTZ | Р: факт подтверждения email |
 | phone?, phone_verified_at? | VARCHAR(32) / TIMESTAMPTZ | Р: телефон и подтверждение |
 | language, timezone | VARCHAR(16) / VARCHAR(64) | Р: язык, IANA timezone |
@@ -43,6 +45,8 @@
 Роли организаций остаются в memberships. Подтверждения не дублируются bool + timestamp: факт определяется временем. Даты рождения, пола, платёжных карт и произвольного профиля не собираем без отдельной функции. История входов, устройств и неуспешных попыток — не массив в users; нужны auth_sessions/auth_events при реализации этих сценариев.
 
 ## 2. organizations — организация
+
+Сценарии, права, состояния, валидация и API подробно описаны в [ORGANIZATIONS_ARCHITECTURE.md](ORGANIZATIONS_ARCHITECTURE.md).
 
 | Колонки | Тип | Уровень и назначение |
 |---|---|---|
@@ -358,16 +362,59 @@ Classification и regression имеют взаимоисключающие фо�
 
 Для полного хранения исправлений меняем ранний UNIQUE(provider,currency,quote_currency,rate_date) на UNIQUE(provider,currency,quote_currency,rate_date,source_revision_sha256). Для этой версии source_revision_sha256 становится обязательным. Новое значение курса создаёт новую строку; старые отчёты ссылаются на старый ID и снимок nominal/value. supersedes_rate_id проверяет ту же валютную пару/дату в сервисе. Полученные ответы сохраняются побайтно с хешем; повторная проверка того же ответа не создаёт новый курс, история запросов при необходимости хранится отдельно. RUB→RUB можно считать единичной конверсией без фиктивного внешнего ответа.
 
+## 15. auth_sessions — сессия входа
+
+| Колонка | Тип / ограничение | Назначение |
+|---|---|---|
+| id | UUID PK, серверная генерация | Семейство токенов/ID входа |
+| user_id | BIGINT FK users.id NOT NULL, RESTRICT | Владелец |
+| auth_version_at_creation | INTEGER NOT NULL | Версия users.auth_version при входе |
+| created_at | TIMESTAMPTZ NOT NULL | Начало сессии |
+| absolute_expires_at | TIMESTAMPTZ NOT NULL | Непереносимый предельный срок |
+| idle_expires_at | TIMESTAMPTZ NOT NULL | Предел по неактивности |
+| last_seen_at | TIMESTAMPTZ NOT NULL | Последний авторизованный запрос; обновление можно ограничить разом в минуту |
+| last_refreshed_at | TIMESTAMPTZ NOT NULL | Последняя успешная ротация или login |
+| revoked_at? | TIMESTAMPTZ | Когда отозвали |
+| revocation_reason? | VARCHAR(80) | logout / logout_all / password_changed / account_blocked / refresh_reuse / user_revoked |
+| revoked_by_user_id? | BIGINT FK users.id | Кто отозвал, NULL для автоматики |
+| csrf_nonce | UUID NOT NULL | Несекретная привязка CSRF к сессии |
+| login_method | VARCHAR(30) NOT NULL DEFAULT password | Способ входа |
+| device_label? | VARCHAR(150) | Подпись для списка устройств; не доказательство личности |
+| user_agent? | TEXT | Клиент при входе, с ограничением размера |
+| created_ip?, last_seen_ip? | INET | Наблюдаемые адреса, если этот сбор включён |
+| login_request_id? | UUID | Корреляция запроса входа |
+
+Ограничения, ротация, сроки, CSRF и API: [AUTH_ARCHITECTURE.md](AUTH_ARCHITECTURE.md).
+
+## 16. auth_refresh_tokens — неизменяемые поколения refresh
+
+| Колонка | Тип / ограничение | Назначение |
+|---|---|---|
+| id | UUID PK | ID выпуска, не секрет |
+| session_id | UUID FK auth_sessions.id NOT NULL, RESTRICT | Семейство |
+| token_digest | BYTEA NOT NULL UNIQUE; длина 32 | SHA-256 секрета |
+| generation | INTEGER NOT NULL >= 0 | Порядковый номер, первый 0 |
+| parent_token_id? | UUID | Предыдущее поколение |
+| issued_at | TIMESTAMPTZ NOT NULL | Выпуск |
+| expires_at | TIMESTAMPTZ NOT NULL | Срок этого поколения |
+| consumed_at? | TIMESTAMPTZ | Когда один раз обменяли |
+| revoked_at? | TIMESTAMPTZ | Явный отзыв текущего поколения |
+| revocation_reason? | VARCHAR(80) | Причина |
+| issued_request_id? | UUID | Запрос выпуска |
+| consumed_request_id? | UUID | Запрос обмена |
+
+Ограничения, ротация, сроки, CSRF и API: [AUTH_ARCHITECTURE.md](AUTH_ARCHITECTURE.md).
+
 ## Хранение истории без бесконечных JSON-массивов
 
-14 таблиц достаточно для текущего предметного набора, но полную историю повторных попыток нельзя представить только last_error и heartbeat. Для запуска «серьёзной» версии рекомендуются следующие точечные расширения; это отдельные таблицы в той же БД:
+16 таблиц описывают аналитический сценарий и сессии авторизации, но полную историю повторных попыток обработки нельзя представить только last_error и heartbeat. Для запуска «серьёзной» версии рекомендуются следующие точечные расширения; это отдельные таблицы в той же БД:
 
 | Таблица | Когда нужна | Ключевые поля |
 |---|---|---|
 | job_attempts | Полная история импорта/обработки/ML/экспорта | id, organization_id, dataset_id, kind, dataset_job_id?/processing_run_id?/experiment_id?/report_id?, attempt_number, worker_token, worker_name, queued_at, started_at, heartbeat_at, completed_at, status, error_code, error_message, performance_json, artifacts_manifest_json |
 | artifacts | Много файлов и единая проверка ссылок | id, organization_id?, dataset_id?, kind, storage_key UNIQUE, sha256, size_bytes, format, schema_version, created_at; владельцы связываются явными FK/association tables |
 | processing_step_results | Запросы и сравнение каждого шага обработки | id, organization_id, dataset_id, processing_run_id, step_id, ordinal, step_type, step_version, config_json, fitted_parameters_json, input_schema_json, output_schema_json, metrics_json, artifact_key, artifact_sha256, started_at, completed_at, status |
-| auth_sessions | Refresh tokens, устройства и отзыв отдельных сессий | id UUID, user_id, refresh_token_hash, created_at, expires_at, revoked_at, last_seen_at; исходный refresh token не хранится |
+| auth_verification_tokens | При реализации восстановления пароля/подтверждения контактов | id, user_id, purpose, token_digest, created_at, expires_at, consumed_at; не заменяет refresh tokens |
 
 У job_attempts ровно одна job-ссылка ненулевая (CHECK); реальные FK и составные связи проверяют tenant/dataset. dataset_job_id может ссылаться на тот же datasets.id: имя явно отличает предметный dataset от задания импорта. UNIQUE(job_reference, attempt_number) реализуется отдельными частичными UNIQUE по каждому типу. Тип задания и выбранная ссылка согласованы CHECK. Не использовать resource_type/resource_id без FK для рабочих задач; такая историческая ссылка допустима только в audit.
 

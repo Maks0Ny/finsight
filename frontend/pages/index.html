@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Вход — FinSight</title>
+
+    <link rel="stylesheet" href="styles/auth.css">
+</head>
+
+<body class="auth-page">
+    <header class="site-header">
+        <a class="brand" href="index.html">
+            <img
+                class="brand__mark"
+                src="assets/brand/finsight-mark.svg"
+                alt=""
+            >
+            <span class="brand__text">
+                <strong class="brand__name">
+                    FinSight
+                </strong>
+                <span class="brand__description">
+                    Данные. Аналитика. Результаты.
+                </span>
+            </span>
+        </a>
+
+        <p class="site-header__slogan">
+            Бизнес в цифрах
+            видит больше.
+        </p>
+    </header>
+
+    <main class="auth-main">
+        <section class="auth-promo">
+            <span>
+                B2B-платформа
+            </span>
+
+            <h1>
+                Ваши данные
+                <span>работают на рост</span>
+            </h1>
+
+            <p>
+                Загружайте CSV, используйте ML-анализ
+                и получайте ценные инсайты для бизнеса
+                за минуты, а не недели.
+            </p>
+
+            <ul class="feature-list">
+                <li class="feature">
+                    <span class="feature__number">01</span>
+                    <div class="feature__content">
+                        <h2 class="feature__title">
+                            Простая загрузка данных
+                        </h2>
+                        <p class="feature__description">
+                            Любые CSV-файлы до 5 ГБ
+                        </p>
+                    </div>
+                </li>
+                <li class="feature">
+                    <span class="feature__number">02</span>
+                    <div class="feature__content">
+                        <h2 class="feature__title">
+                            ML-анализ и прогнозы
+                        </h2>
+                        <p class="feature__description">
+                            Автоматический анализ и выявление аномалий
+                        </p>
+                    </div>
+                </li>
+                <li class="feature">
+                    <span class="feature__number">03</span>
+                    <div class="feature__content">
+                        <h2 class="feature__title">
+                            Решения на основе данных
+                        </h2>
+                        <p class="feature__description">
+                            Быстрее, точнее, эффективнее
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="auth-panel">
+            <header class="auth-panel__header">
+                <h2 class="auth-panel__title">
+                    Добро пожаловать в FinSight
+                </h2>
+                <p class="auth-panel__description">
+                    Войдите, чтобы продолжить работу с вашими данными
+                </p>
+            </header>
+
+            <form class="auth-form">
+                <div class="form-field">
+                    <label class="form-field__label" for="email_input">
+                        Рабочая почта
+                    </label>
+                    <input
+                        class="form-field__input"
+                        id="email_input"
+                        type="email"
+                        name="email"
+                        placeholder="name@company.ru"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-field">
+                    <label class="form-field__label" for="password_input">
+                        Пароль
+                    </label>
+                    <input
+                        class="form-field__input"
+                        id="password_input"
+                        type="password"
+                        name="password"
+                        placeholder="Введите пароль"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <div class="auth-options">
+                    <label class="remember-option" for="remember_input">
+                        <input
+                            class="remember-option__checkbox"
+                            id="remember_input"
+                            type="checkbox"
+                            name="remember"
+                        >
+                        Запомнить меня
+                    </label>
+                    <a class="auth-link" href="#">
+                        Забыли пароль?
+                    </a>
+                </div>
+
+                <button class="auth-button" type="submit">
+                    Войти
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>или войдите через</span>
+            </div>
+
+            <div class="provider-list">
+                <button class="provider-button" type="button">
+                    <span class="provider-button__icon-box">
+                        <img
+                            class="provider-button__icon"
+                            src="assets/auth/yandex.svg"
+                            alt=""
+                        >
+                    </span>
+                    <span>Войти через Яндекс ID</span>
+                </button>
+                <button class="provider-button" type="button">
+                    <span class="provider-button__icon-box">
+                        <img
+                            class="provider-button__icon"
+                            src="assets/auth/google.svg"
+                            alt=""
+                        >
+                    </span>
+                    <span>Войти через Google Workspace</span>
+                </button>
+            </div>
+
+            <footer class="auth-panel__footer">
+                <p class="registration-link">
+                    Нет аккаунта?
+                    <a class="auth-link" href="#">Создать аккаунт компании</a>
+                </p>
+
+                <aside class="security-note">
+                    <strong>Ваши данные защищены</strong>
+                    <p>
+                        Используем современные методы шифрования
+                        и корпоративные стандарты безопасности.
+                    </p>
+                </aside>
+            </footer>
+        </section>
+
+    </main>
+    
+    <footer class="site-footer">
+        <div class="site-footer__brand">
+            <img
+                class="site-footer__mark"
+                src="assets/brand/finsight-mark.svg"
+                alt=""
+            >
+            <div class="site-footer__brand-text">
+                <strong>FinSight</strong>
+                <span>© 2026. Все права защищены.</span>
+            </div>
+        </div>
+
+        <nav class="site-footer__links" aria-label="Правовая информация">
+            <a href="#">Конфиденциальность</a>
+            <a href="#">Условия использования</a>
+            <a href="mailto:support@finsight.ru">Поддержка</a>
+        </nav>
+    </footer>
+</body>
+</html>

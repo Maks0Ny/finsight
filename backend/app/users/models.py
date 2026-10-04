@@ -14,7 +14,7 @@ class User(Base):
             unique=True,
             nullable=False,
             index=True
-            )  
+    )  
          
     '''phone: Mapped[str] = mapped_column(
         String(20),
@@ -26,16 +26,22 @@ class User(Base):
     password_hash: Mapped[str] = mapped_column(
         String(255),
         nullable=False
-        ) 
+    ) 
     
     name: Mapped[str] = mapped_column(
         String(50),
         nullable=False
-        ) 
+    ) 
     
-    middle_name: Mapped[str] = mapped_column(String(50))
-    second_name: Mapped[str] = mapped_column(String(50),
-                                             nullable=False)
+    middle_name: Mapped[str | None] = mapped_column(
+        String(50),
+        nullable=True
+    )
+    
+    second_name: Mapped[str] = mapped_column(
+        String(50),
+        nullable=False
+    )
     
     '''birth_date: Mapped[str] = mapped_column(unique=True)
     gender: Mapped[str]
@@ -44,12 +50,21 @@ class User(Base):
     is_verified_phone: Mapped[bool]
     is_supervise: Mapped[bool]'''
     
-    created_at: Mapped[str] = mapped_column(DateTime(timezone=True), 
-                                            nullable=False)
-    updated_at: Mapped[str] = mapped_column(DateTime(timezone=True), 
-                                            nullable=False)
-    last_login_at: Mapped[str | None] = mapped_column(DateTime(timezone=True), 
-                                               nullable=True)
+    created_at: Mapped[str] = mapped_column(
+        DateTime(timezone=True), 
+        nullable=False
+    )
+    
+    updated_at: Mapped[str] = mapped_column(
+        DateTime(timezone=True), 
+        nullable=False
+    )
+    
+    last_login_at: Mapped[str | None] = mapped_column(
+        DateTime(timezone=True), 
+        nullable=True
+    )
+    
     '''status: Mapped[str]'''
     
     

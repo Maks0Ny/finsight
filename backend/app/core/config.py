@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     dp_password: str = "postgres"
     dp_name: str = "postgres"
     
+    auth_secret_key: str
+    access_token_minutes: int = 15
+    
     
     # Настройки для подключения к бд
     model_config = SettingsConfigDict(env_file="D:/Projects/VScode_Projects/FinSight/.env", 

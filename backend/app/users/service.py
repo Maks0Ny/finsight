@@ -4,7 +4,7 @@ from .errors import UserNotFoundError, UserAlreadyExistsError
 from .repository import get_user_by_id, get_user_by_email, save_user
 from .schemas import UserCreateRequest
 from datetime import datetime, timezone
-
+from ..auth.security import hash_password
 def get_user(
     session: Session, 
     user_id: int
@@ -24,7 +24,7 @@ def register_user(
     if get_user_by_email(session, data.email) is not None:
         raise UserAlreadyExistsError()
     
-    password_hash = 1234567890
+    password_hash = hash_password(data.password)
     now = datetime.now(timezone.utc)
     
     user = User(
