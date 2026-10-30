@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field
 
 class UserCreateRequest(BaseModel):
-    email: EmailStr = Field(..., max_length=100)
+    email: EmailStr = Field(..., max_length=100) # ... означает «значение обязательно, готового значения по умолчанию нет»
     password: str = Field(..., min_length=8, max_length=100)
     
     name: str = Field(..., max_length=50)

@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     
     auth_secret_key: str
     access_token_minutes: int = 15
+    refresh_token_days: int = 30
     
     
     # Настройки для подключения к бд

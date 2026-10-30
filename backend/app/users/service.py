@@ -5,6 +5,7 @@ from .repository import get_user_by_id, get_user_by_email, save_user
 from .schemas import UserCreateRequest
 from datetime import datetime, timezone
 from ..auth.security import hash_password
+
 def get_user(
     session: Session, 
     user_id: int

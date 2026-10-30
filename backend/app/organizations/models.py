@@ -14,7 +14,7 @@ from sqlalchemy import (
 from datetime import datetime
 from backend.app.users.models import User
 
-class Organizations(Base):
+class Organization(Base):
     __tablename__ = "organizations"
     
     id: Mapped[int] = mapped_column(
@@ -29,7 +29,8 @@ class Organizations(Base):
     
     slug: Mapped[str] = mapped_column(
         String(100),
-        nullable = False
+        nullable = False,
+        unique=True
     ) # короткий адрес
     
     base_currency: Mapped[str] = mapped_column(
@@ -47,12 +48,12 @@ class Organizations(Base):
         nullable = False
     )
     
-    created_at: Mapped[str] = mapped_column(
+    created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), 
         nullable=False
     )
     
-    updated_at: Mapped[str] = mapped_column(
+    updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), 
         nullable=False
     )
@@ -67,11 +68,20 @@ class Organizations(Base):
         nullable = False
     )
     
-    legal_name: Mapped[str] = mapped_column(String(300)) # юридическое название
+    legal_name: Mapped[str | None] = mapped_column(
+        String(300),
+        nullable=True
+    ) # юридическое название
     
-    registration_country: Mapped[str] = mapped_column(String(2))
+    registration_country: Mapped[str | None] = mapped_column(
+        String(2),
+        nullable=True
+    )
     
-    tax_identifier: Mapped[str] = mapped_column(String(80)) # налоговый идентификатор
+    tax_identifier: Mapped[str | None] = mapped_column(
+        String(80),
+        nullable=True
+        ) # налоговый идентификатор
     
     description: Mapped[str | None] = mapped_column(
         Text, 
@@ -83,11 +93,14 @@ class Organizations(Base):
         nullable=True
     ) # ключ файла логотипа
     
-    archived_at: Mapped[str] = mapped_column(DateTime(timezone=True))
+    archived_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
         
-    suspended_at: Mapped[str] = mapped_column(DateTime(timezone=True)) # дата остановки
+    suspended_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True)) # дата остановки
     
-    status_reason_code: Mapped[str] = mapped_column(String(80)) # причина ограничения
+    status_reason_code: Mapped[str | None] = mapped_column(
+        String(80),
+        nullable=True
+    ) # причина ограничения
     
     
 
@@ -123,6 +136,8 @@ class OrganizationMembership(Base):
 
     role: Mapped[str] = mapped_column(String(20), nullable=False)
 
+    status: Mapped[str] = mapped_column(String(20), nullable=False)
+    
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),
@@ -130,5 +145,5 @@ class OrganizationMembership(Base):
     )
 
     # Удобный доступ к связанным Python-объектам.
-    organization: Mapped["Organizations"] = relationship()
+    organization: Mapped["Organization"] = relationship()
     user: Mapped[User] = relationship()

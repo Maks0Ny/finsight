@@ -12,7 +12,7 @@ from .errors import InvalidAccessTokenError
 password_hasher = PasswordHash.recommended() # Создаём пароль с рекомендуемым алгоритмом хеширования (тут Argon2)
 ALGORITHM = "HS256"
 
-# Функция для хещированяи пароля 
+# Функция для хешированяи пароля 
 def hash_password(password: str) -> str:
     return password_hasher.hash(password)
 

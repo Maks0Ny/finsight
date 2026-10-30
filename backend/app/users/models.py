@@ -1,7 +1,7 @@
 from backend.app.database.base import Base
 from sqlalchemy import String, DateTime, Identity
 from sqlalchemy.orm import Mapped, mapped_column
-
+from datetime import datetime
 
 # Класс базы данных пользователя
 class User(Base):
@@ -50,17 +50,17 @@ class User(Base):
     is_verified_phone: Mapped[bool]
     is_supervise: Mapped[bool]'''
     
-    created_at: Mapped[str] = mapped_column(
+    created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), 
         nullable=False
     )
     
-    updated_at: Mapped[str] = mapped_column(
+    updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), 
         nullable=False
     )
     
-    last_login_at: Mapped[str | None] = mapped_column(
+    last_login_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), 
         nullable=True
     )
