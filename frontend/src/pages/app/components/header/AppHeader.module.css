@@ -1,0 +1,277 @@
+.header {
+  width: 100%;
+  min-height: 72px;
+  padding: 0 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  color: #f4f8fc;
+  background-color: #061625;
+
+  border-bottom: 1px solid rgba(66, 112, 146, 0.35);
+}
+
+.left,
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  min-width: 0;
+  gap: 22px;
+}
+
+.actions {
+  flex: 0 0 auto;
+  gap: 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brandMark {
+  width: 32px;
+  height: 36px;
+  object-fit: contain;
+
+  filter:
+    invert(48%)
+    sepia(100%)
+    saturate(3020%)
+    hue-rotate(192deg)
+    brightness(103%)
+    contrast(103%);
+}
+
+.brandName {
+  color: #ffffff;
+
+  font-size: 25px;
+  line-height: 1;
+}
+
+.divider,
+.actionDivider {
+  width: 1px;
+  background-color: rgba(113, 151, 180, 0.35);
+}
+
+.divider {
+  height: 36px;
+}
+
+.actionDivider {
+  height: 30px;
+}
+
+.organization {
+  min-width: 280px;
+  height: 44px;
+  padding: 0 14px;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  color: #e7eef5;
+  background-color: #0a1d2d;
+
+  border: 1px solid #31546d;
+  border-radius: 10px;
+
+  font: inherit;
+  cursor: pointer;
+
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.organization:hover {
+  background-color: #0d2538;
+  border-color: #407798;
+}
+
+.organizationIcon {
+  color: #8fb7d4;
+
+  font-size: 20px;
+}
+
+.organizationName {
+  overflow: hidden;
+  flex: 1;
+
+  text-align: left;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.chevron {
+  color: #91a9bb;
+
+  font-size: 17px;
+}
+
+.iconButton {
+  position: relative;
+
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+
+  display: grid;
+  place-items: center;
+
+  color: #b8cad8;
+  background: transparent;
+
+  border: none;
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.iconButton:hover {
+  color: #ffffff;
+  background-color: rgba(45, 105, 146, 0.18);
+}
+
+.iconButton svg {
+  width: 22px;
+  height: 22px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.notificationDot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  width: 8px;
+  height: 8px;
+
+  background-color: #218bff;
+  border: 2px solid #061625;
+  border-radius: 50%;
+}
+
+.profile {
+  padding: 4px;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  color: inherit;
+  background: transparent;
+
+  border: none;
+  border-radius: 10px;
+
+  font: inherit;
+  cursor: pointer;
+}
+
+.profile:hover {
+  background-color: rgba(45, 105, 146, 0.14);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  color: #e7f3fc;
+  background-color: #375c78;
+
+  border: 1px solid #507997;
+  border-radius: 50%;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.userInformation {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.userName {
+  color: #f3f7fb;
+
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.userRole {
+  color: #8199ad;
+
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.organization:focus-visible,
+.iconButton:focus-visible,
+.profile:focus-visible {
+  outline: 3px solid rgba(33, 139, 255, 0.4);
+  outline-offset: 2px;
+}
+
+@media (max-width: 900px) {
+  .header {
+    padding: 0 18px;
+  }
+
+  .organization {
+    min-width: 210px;
+  }
+
+  .userInformation {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .brandName,
+  .divider,
+  .actionDivider {
+    display: none;
+  }
+
+  .left {
+    gap: 12px;
+  }
+
+  .organization {
+    min-width: 0;
+    max-width: 190px;
+  }
+
+  .actions {
+    gap: 5px;
+  }
+}

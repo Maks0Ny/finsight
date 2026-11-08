@@ -1,0 +1,42 @@
+e.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  flex: 0 0 auto;
+}
+
+.mark {
+  width: 32px;
+  height: 36px;
+
+  object-fit: contain;
+
+  filter:
+    invert(48%)
+    sepia(100%)
+    saturate(3020%)
+    hue-rotate(192deg)
+    brightness(103%)
+    contrast(103%);
+}
+
+.name {
+  color: #ffffff;
+
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 680px) {
+  .mark {
+    width: 28px;
+    height: 31px;
+  }
+
+  .name {
+    display: none;
+  }
+}
