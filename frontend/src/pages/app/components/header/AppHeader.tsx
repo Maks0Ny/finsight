@@ -1,6 +1,7 @@
+import { NavLink } from "react-router";
+
 import { OrganizationSwitcher } from "../../../../features/organization/select";
-import { HeaderSearch } from "../../../features/search/header";
-import { NotificationsMenu } from "../../../features/notifications/menu";
+import { HeaderSearch } from "../../../../features/organization/search";
 import { UserMenu } from "../../../../features/profile/user-menu";
 
 import { HeaderBrand } from "./HeaderBrand";
@@ -16,8 +17,11 @@ export function AppHeader() {
       </div>
 
       <div className={styles.actions}>
+        <NavLink className={styles.aboutLink} to="/about">
+          О нас
+        </NavLink>
+
         <HeaderSearch />
-        <NotificationsMenu />
         <UserMenu />
       </div>
     </header>

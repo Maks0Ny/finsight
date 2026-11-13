@@ -227,6 +227,63 @@
   line-height: 1.2;
 }
 
+.aboutLink {
+  position: relative; /*делает ссылку точкой отсчёта для синей линии*/
+
+  padding: 10px 4px;
+
+  color: #8fa6b9;
+  background: transparent; /*прозрачный фон*/
+
+  border: 0;
+
+  font-family: Inter, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none; /*убирает стандартное синее подчёркивание ссылки*/
+
+  transition:
+    color 160ms ease,
+    text-shadow 160ms ease;
+}
+
+.aboutLink::after {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  left: 4px;
+
+  height: 2px;
+
+  background-color: #218bff;
+  border-radius: 2px;
+
+  content: "";
+
+  transform: scaleX(0); /*изменяет горизонтальный масштаб*/
+  transform-origin: center;
+
+  transition: transform 160ms ease;
+}
+
+.aboutLink:hover {
+  color: #ffffff;
+
+  text-shadow:
+    0 0 14px rgba(33, 139, 255, 0.45);
+}
+
+.aboutLink:hover::after {
+  transform: scaleX(1);
+}
+
+.aboutLink:focus-visible {
+  outline: 2px solid rgba(33, 139, 255, 0.45);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 .userRole {
   color: #8199ad;
 

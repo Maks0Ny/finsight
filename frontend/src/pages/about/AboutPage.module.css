@@ -1,0 +1,651 @@
+.page {
+  position: relative;
+
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /*
+    isolation: isolate создаёт отдельный слой наложения.
+
+    Благодаря этому z-index внутренних элементов страницы
+    не конфликтует с элементами за пределами страницы.
+  */
+  isolation: isolate;
+
+  color: #f4f8fc;
+  background-color: #061522;
+
+  /*
+    radial-gradient(shape at position, colors) создаёт
+    градиент, расходящийся от центра.
+
+    ellipse at left center — эллипс с центром слева.
+    rgba(red, green, blue, alpha) — цвет с прозрачностью.
+    Последний аргумент alpha принимает значение от 0 до 1.
+  */
+  background-image:
+    radial-gradient(
+      ellipse at left center,
+      rgba(0, 162, 255, 0.15),
+      transparent 38%
+    ),
+    radial-gradient(
+      ellipse at right center,
+      rgba(112, 76, 255, 0.14),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at center,
+      rgba(33, 139, 255, 0.18),
+      transparent 42%
+    );
+
+  box-shadow:
+    inset 130px 0 180px rgba(0, 119, 204, 0.07),
+    inset -130px 0 180px rgba(102, 72, 255, 0.07);
+
+  font-family: Inter, Arial, sans-serif;
+}
+
+/* Большой круг, обозначающий общую орбиту. */
+
+.page::before {
+  position: absolute;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+
+  /*
+    min(first, second) выбирает наименьшее значение.
+
+    84vw — 84% ширины окна.
+    88vh — 88% высоты окна.
+  */
+  width: min(84vw, 88vh);
+
+  /*
+    aspect-ratio: 1 заставляет высоту быть равной ширине.
+  */
+  aspect-ratio: 1;
+
+  border: 1px solid rgba(60, 139, 197, 0.15);
+  border-radius: 50%;
+
+  content: "";
+
+  /*
+    translate(x, y) перемещает элемент.
+
+    -50% по каждой оси ставит центр круга
+    точно в центр страницы.
+  */
+  transform: translate(-50%, -50%);
+}
+
+/* Общий класс комиксных полутонов. */
+
+.halftone {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+
+  width: min(36vw, 560px);
+
+  pointer-events: none;
+}
+
+/* Голубые комиксные точки слева. */
+
+.halftoneLeft {
+  left: 0;
+
+  /*
+    Маленький radial-gradient создаёт одну точку.
+    background-size повторяет эту точку сеткой.
+  */
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(24, 155, 255, 0.76) 0,
+      rgba(24, 155, 255, 0.76) 2px,
+      transparent 2.8px
+    );
+
+  background-size: 17px 17px;
+
+  /*
+    mask-image определяет видимую часть элемента.
+
+    linear-gradient(direction, colors) создаёт линейную маску.
+    Слева точки видны полностью, к центру исчезают.
+
+    -webkit-mask-image — вариант для браузеров Chromium и Safari.
+  */
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      #000000 0%,
+      rgba(0, 0, 0, 0.72) 42%,
+      transparent 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      to right,
+      #000000 0%,
+      rgba(0, 0, 0, 0.72) 42%,
+      transparent 100%
+    );
+}
+
+/* Фиолетовые комиксные точки справа. */
+
+.halftoneRight {
+  right: 0;
+
+  background-image:
+    radial-gradient(
+      circle,
+      rgba(118, 82, 255, 0.72) 0,
+      rgba(118, 82, 255, 0.72) 2px,
+      transparent 2.8px
+    );
+
+  background-size: 17px 17px;
+
+  -webkit-mask-image:
+    linear-gradient(
+      to left,
+      #000000 0%,
+      rgba(0, 0, 0, 0.72) 42%,
+      transparent 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      to left,
+      #000000 0%,
+      rgba(0, 0, 0, 0.72) 42%,
+      transparent 100%
+    );
+}
+
+/* Кнопка возврата. */
+
+.backButton {
+  position: absolute;
+  top: 28px;
+  left: 30px;
+  z-index: 60;
+
+  padding: 7px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #7891a5;
+  background: transparent;
+
+  border: 0;
+
+  font: inherit;
+  cursor: pointer;
+}
+
+.backButton kbd {
+  min-width: 44px;
+  padding: 6px 9px;
+
+  color: #c6d5e0;
+  background-color: #0a1e2e;
+
+  border: 1px solid #31546d;
+  border-radius: 7px;
+
+  box-shadow: 0 3px 0 #04101a;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.backButton span {
+  font-size: 13px;
+
+  opacity: 0;
+  transform: translateX(-8px);
+
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.backButton:hover {
+  color: #ffffff;
+}
+
+.backButton:hover span {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.backButton:focus-visible {
+  outline: 3px solid rgba(33, 139, 255, 0.4);
+  outline-offset: 3px;
+}
+
+/*
+  Центральная информация без тяжёлой карточки.
+
+  pointer-events: none запрещает этому блоку
+  перехватывать наведение мыши.
+
+  Благодаря этому картинку можно выделить,
+  даже когда она проходит за именем.
+*/
+
+.author {
+  position: relative;
+  z-index: 10;
+
+  width: calc(100% - 48px);
+  max-width: 450px;
+  padding: 22px 26px;
+
+  pointer-events: none;
+
+  text-align: center;
+}
+
+.author::before {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+
+  width: 350px;
+  height: 205px;
+
+  background-color: rgba(7, 29, 46, 0.68);
+
+  border-radius: 50%;
+
+  /*
+    blur(radius) размывает элемент.
+    radius определяет силу размытия.
+  */
+  filter: blur(45px);
+
+  content: "";
+
+  transform: translate(-50%, -50%);
+}
+
+.label {
+  color: #37a2ff;
+
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.author h1 {
+  margin: 14px 0 10px;
+
+  color: #ffffff;
+
+  /*
+    clamp(minimum, preferred, maximum) ограничивает значение.
+
+    Размер будет изменяться вместе с шириной окна,
+    но не станет меньше 38px или больше 58px.
+  */
+  font-size: clamp(38px, 4vw, 58px);
+
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.05em;
+
+  text-shadow:
+    0 0 40px rgba(33, 139, 255, 0.24);
+}
+
+.author p {
+  max-width: 390px;
+  margin: 0 auto;
+
+  color: #91a7ba;
+
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.author time {
+  width: fit-content;
+  margin: 18px auto 0;
+  padding: 7px 12px;
+
+  display: block;
+
+  color: #8199ad;
+  background-color: rgba(10, 34, 52, 0.72);
+
+  border: 1px solid rgba(49, 84, 109, 0.75);
+  border-radius: 999px;
+
+  font-size: 11px;
+}
+
+/*
+  Невидимая линия от центра страницы до изображения.
+
+  var(--name) получает значение CSS-переменной.
+  Например, var(--radius) получает радиус из .codex.
+*/
+
+.agent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+
+  width: var(--radius);
+  height: 1px;
+
+  /*
+    Длинная невидимая линия не перехватывает курсор.
+  */
+  pointer-events: none;
+
+  transform-origin: left center;
+
+  /*
+    animation принимает:
+
+    1. название @keyframes;
+    2. продолжительность;
+    3. функцию скорости;
+    4. количество повторов.
+
+    linear — одинаковая скорость.
+    infinite — бесконечное повторение.
+  */
+  animation: orbit 36s linear infinite;
+
+  /*
+    Отрицательная задержка запускает анимацию так,
+    словно она уже выполнялась указанное время.
+
+    Благодаря этому изображения сразу распределены по кругу.
+  */
+  animation-delay: var(--delay);
+
+  /*
+    will-change сообщает браузеру, какое свойство
+    скоро будет часто изменяться.
+  */
+  will-change: transform;
+}
+
+/*
+  Когда курсор находится на изображении,
+  вся его орбита поднимается выше имени.
+*/
+
+.agent:hover {
+  z-index: 50;
+}
+
+.agent img {
+  position: absolute;
+
+  /*
+    calc(expression) выполняет вычисление CSS-значений.
+
+    Здесь половина размера изображения вычитается,
+    чтобы центр картинки оказался на конце орбиты.
+  */
+  top: calc(var(--size) / -2);
+  right: calc(var(--size) / -2);
+
+  width: var(--size);
+  height: var(--size);
+  padding: 8px;
+
+  object-fit: contain;
+
+  /*
+    Само изображение снова может получать наведение,
+    хотя его родитель имеет pointer-events: none.
+  */
+  pointer-events: auto;
+  cursor: pointer;
+
+  background-color: rgba(9, 31, 48, 0.35);
+
+  border: 1px solid transparent;
+  border-radius: 22px;
+
+  /*
+    drop-shadow(x, y, blur, color) создаёт тень
+    по непрозрачной форме изображения.
+  */
+  filter:
+    drop-shadow(0 14px 25px rgba(0, 0, 0, 0.45));
+
+  animation: spin var(--spinTime) linear infinite;
+
+  transition:
+    scale 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    filter 180ms ease;
+
+  will-change: transform;
+}
+
+.agent img:hover {
+  /*
+    scale изменяет визуальный масштаб элемента.
+    1.35 означает увеличение до 135%.
+  */
+  scale: 1.35;
+
+  background-color: rgba(11, 43, 66, 0.98);
+
+  border-color: #37a2ff;
+
+  /*
+    brightness(value) меняет яркость.
+    1 — обычная яркость, 1.2 — яркость 120%.
+  */
+  filter:
+    brightness(1.2)
+    drop-shadow(0 0 20px rgba(33, 139, 255, 1))
+    drop-shadow(0 0 55px rgba(75, 71, 255, 0.65));
+}
+
+/* Светлая подложка для тёмных логотипов. */
+
+.grok img,
+.openai img,
+.ollama img {
+  background-color: rgba(255, 255, 255, 0.88);
+}
+
+.grok img:hover,
+.openai img:hover,
+.ollama img:hover {
+  background-color: #ffffff;
+
+  border-color: #37a2ff;
+
+  filter:
+    brightness(1.05)
+    drop-shadow(0 0 22px rgba(33, 139, 255, 0.95));
+}
+
+/*
+  У каждого изображения свои:
+
+  --radius — расстояние от центра;
+  --size — размер;
+  --delay — положение на орбите при открытии;
+  --spinTime — скорость собственного вращения.
+*/
+
+.codex {
+  --radius: min(43vw, 43vh);
+  --size: 110px;
+  --delay: 0s;
+  --spinTime: 13s;
+}
+
+.claude {
+  --radius: min(45vw, 45vh);
+  --size: 88px;
+  --delay: -4s;
+  --spinTime: 17s;
+}
+
+.openai {
+  --radius: min(42vw, 42vh);
+  --size: 120px;
+  --delay: -8s;
+  --spinTime: 21s;
+}
+
+.gemini {
+  --radius: min(44vw, 44vh);
+  --size: 94px;
+  --delay: -12s;
+  --spinTime: 11s;
+}
+
+.grok {
+  --radius: min(43vw, 43vh);
+  --size: 105px;
+  --delay: -16s;
+  --spinTime: 19s;
+}
+
+.ollama {
+  --radius: min(45vw, 45vh);
+  --size: 78px;
+  --delay: -20s;
+  --spinTime: 15s;
+}
+
+.gemma {
+  --radius: min(44vw, 44vh);
+  --size: 91px;
+  --delay: -24s;
+  --spinTime: 12s;
+}
+
+.qwen {
+  --radius: min(42vw, 42vh);
+  --size: 84px;
+  --delay: -28s;
+  --spinTime: 18s;
+}
+
+.perplexity {
+  --radius: min(45vw, 45vh);
+  --size: 75px;
+  --delay: -32s;
+  --spinTime: 16s;
+}
+
+/*
+  @keyframes описывает этапы анимации.
+
+  rotate(angle) поворачивает элемент:
+  0deg — начальное положение;
+  360deg — полный оборот.
+*/
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Вращение самой картинки в обратную сторону. */
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@media (max-width: 700px) {
+  .backButton {
+    top: 18px;
+    left: 18px;
+  }
+
+  .author {
+    max-width: 350px;
+    padding: 20px;
+  }
+
+  .author h1 {
+    font-size: 36px;
+  }
+
+  .author p {
+    font-size: 13px;
+  }
+
+  .halftone {
+    width: 44vw;
+    opacity: 0.65;
+  }
+
+  .agent {
+    --radius: min(45vw, 37vh);
+  }
+
+  .agent img {
+    width: calc(var(--size) * 0.65);
+    height: calc(var(--size) * 0.65);
+  }
+}
+
+
+.brandImage {
+  width: 54px;
+  height: 60px;
+  margin: 0 auto 12px;
+
+  display: block;
+
+  object-fit: contain;
+
+  filter:
+    invert(48%)
+    sepia(100%)
+    saturate(3020%)
+    hue-rotate(192deg)
+    brightness(103%)
+    contrast(103%)
+    drop-shadow(0 0 14px rgba(33, 139, 255, 0.55));
+}

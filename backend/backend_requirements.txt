@@ -1,18 +1,24 @@
+# API
 fastapi
 uvicorn[standard]
 python-multipart
 
+# Database and migrations
 sqlalchemy
 alembic
 psycopg[binary]
 
+# Authentication
 PyJWT
 pwdlib[argon2]
 
+# Validation and configuration
+pydantic
+pydantic[email]
+pydantic-settings
+python-dotenv
+
+# Testing
 pytest
 pytest-cov
 httpx
-
-pydantic
-pydantic[email]
-pydantic_settings

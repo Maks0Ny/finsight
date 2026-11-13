@@ -1,0 +1,259 @@
+.panel {
+  width: 100%;
+  padding: 28px;
+
+  color: #f4f8fc;
+  background-color: #0b2132;
+
+  border: 1px solid #294b63;
+  border-radius: 14px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0 0 7px;
+
+  font-size: 22px;
+}
+
+.description {
+  margin: 0;
+
+  color: #91a7ba;
+
+  font-size: 14px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: #d7e2ec;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+  padding: 0 15px;
+
+  color: #eef5fb;
+  background-color: #081929;
+
+  border: 1px solid #294862;
+  border-radius: 9px;
+  outline: none;
+
+  font: inherit;
+}
+
+.input::placeholder {
+  color: #60788d;
+}
+
+.input:focus {
+  border-color: #218bff;
+
+  box-shadow:
+    0 0 0 3px rgba(33, 139, 255, 0.13);
+}
+
+.fileInput {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+
+  opacity: 0; /*делает элемент полностью прозрачным, но не удаляет его со страницы*/
+}
+
+.dropzone {
+  min-height: 220px;
+  padding: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  color: #91a7ba;
+  background-color: #081d2d;
+
+  border: 2px dashed #2978ad;
+  border-radius: 12px;
+
+  text-align: center;
+  cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.dropzone:hover {
+  background-color: #0a263a;
+  border-color: #218bff;
+}
+
+.dropzoneTitle {
+  color: #f4f8fc;
+
+  font-size: 18px;
+}
+
+.dropzoneText {
+  margin-top: 6px;
+
+  font-size: 13px;
+}
+
+.selectButton {
+  margin-top: 18px;
+  padding: 9px 18px;
+
+  color: #ffffff;
+  background-color: rgba(33, 139, 255, 0.13);
+
+  border: 1px solid #218bff;
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.limit {
+  margin-top: 12px;
+
+  color: #6f879a;
+}
+
+.selectedFile {
+  padding: 14px 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+
+  background-color: #081d2d;
+
+  border: 1px solid #294b63;
+  border-radius: 9px;
+}
+
+.fileInformation {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fileInformation strong {
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fileInformation span {
+  color: #91a7ba;
+
+  font-size: 12px;
+}
+
+.removeButton {
+  padding: 7px 10px;
+
+  color: #ff8794;
+  background: transparent;
+
+  border: 0;
+  border-radius: 6px;
+
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background-color: rgba(255, 80, 100, 0.1);
+}
+
+.error,
+.success {
+  margin: 0;
+  padding: 12px 14px;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+}
+
+.error {
+  color: #ff9ca6;
+  background-color: rgba(255, 80, 100, 0.1);
+
+  border: 1px solid rgba(255, 80, 100, 0.3);
+}
+
+.success {
+  color: #69e6a2;
+  background-color: rgba(62, 210, 130, 0.1);
+
+  border: 1px solid rgba(62, 210, 130, 0.3);
+}
+
+.submitButton {
+  min-height: 48px;
+
+  color: #ffffff;
+  background-color: #1688ff;
+
+  border: 1px solid #3598ff;
+  border-radius: 9px;
+
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #2994ff;
+}
+
+.submitButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (max-width: 600px) {
+  .panel {
+    padding: 20px;
+  }
+
+  .dropzone {
+    min-height: 190px;
+    padding: 22px 16px;
+  }
+
+  .selectedFile {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

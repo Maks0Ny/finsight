@@ -1,0 +1,268 @@
+.page {
+  width: 100%;
+  color: #f4f8fc;
+}
+
+.breadcrumbs {
+  margin: 0 0 14px;
+  color: #728ba0;
+  font-size: 13px;
+}
+
+.breadcrumbs span {
+  color: #b6c7d5;
+}
+
+.heading {
+  margin-bottom: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.heading h1 {
+  margin: 0 0 4px;
+
+  font-size: 34px;
+  line-height: 1;
+}
+
+.heading p {
+  margin: 0;
+
+  color: #8299ad;
+  font-size: 14px;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadButton {
+  padding: 12px 20px;
+
+  color: #ffffff;
+  background-color: #1688ff;
+
+  border-radius: 8px;
+
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.uploadButton:hover {
+  background-color: #2994ff;
+}
+
+.statistics {
+  margin-bottom: 20px;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  padding: 14px 18px;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: #092237;
+
+  border: 1px solid #2479b4;
+  border-radius: 9px;
+}
+
+.statCard span {
+  color: #a7b7c5;
+  font-size: 12px;
+}
+
+.statCard strong {
+  margin-top: 4px;
+
+  font-size: 24px;
+}
+
+.successCard {
+  border-color: #299967;
+}
+
+.errorCard {
+  border-color: #b95050;
+}
+
+.dropzone {
+  min-height: 180px;
+  margin-bottom: 20px;
+  padding: 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  color: #8299ad;
+  background-color: #092237;
+
+  border: 2px dashed #268ed8;
+  border-radius: 12px;
+
+  cursor: pointer;
+}
+
+.dropzone strong {
+  color: #f4f8fc;
+  font-size: 20px;
+}
+
+.dropzone span {
+  margin-top: 5px;
+}
+
+.chooseButton {
+  padding: 9px 28px;
+  margin-top: 12px;
+
+  color: #ffffff;
+
+  border: 1px solid #2994ff;
+  border-radius: 7px;
+}
+
+.dropzone small {
+  margin-top: 8px;
+}
+
+.datasets {
+  overflow: hidden;
+
+  background-color: #092237;
+
+  border: 1px solid #294b63;
+  border-radius: 10px;
+}
+
+.datasetsHeader {
+  padding: 12px 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  border-bottom: 1px solid #294b63;
+}
+
+.datasetsHeader h2 {
+  margin: 0;
+
+  font-size: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+}
+
+.filters input,
+.filters select {
+  height: 36px;
+  padding: 0 12px;
+
+  color: #dce7ef;
+  background-color: #081b2b;
+
+  border: 1px solid #31546d;
+  border-radius: 7px;
+
+  font: inherit;
+}
+
+.filters input {
+  width: 260px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-size: 13px;
+}
+
+.table th,
+.table td {
+  padding: 12px 18px;
+
+  border-bottom: 1px solid #24465e;
+
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table th {
+  color: #9eb1c1;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.ready,
+.processing,
+.error {
+  padding: 4px 9px;
+
+  border-radius: 20px;
+}
+
+.ready {
+  color: #42dd87;
+  background-color: rgba(66, 221, 135, 0.12);
+}
+
+.processing {
+  color: #3da2ff;
+  background-color: rgba(61, 162, 255, 0.12);
+}
+
+.error {
+  color: #ff746b;
+  background-color: rgba(255, 116, 107, 0.12);
+}
+
+@media (max-width: 1000px) {
+  .statistics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
+  .heading,
+  .datasetsHeader,
+  .filters {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .statistics {
+    grid-template-columns: 1fr;
+  }
+
+  .filters input,
+  .filters select {
+    width: 100%;
+  }
+
+  .uploadButton {
+    text-align: center;
+  }
+}

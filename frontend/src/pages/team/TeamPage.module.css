@@ -1,0 +1,105 @@
+.page {
+  width: 100%;
+  color: #f4f8fc;
+}
+
+.heading {
+  margin-bottom: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.heading h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+.heading p {
+  margin: 0;
+  color: #91a7ba;
+}
+
+.inviteButton {
+  padding: 12px 20px;
+
+  color: #ffffff;
+  background-color: #1688ff;
+
+  border: 0;
+  border-radius: 9px;
+
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.inviteButton:hover {
+  background-color: #2994ff;
+}
+
+.members {
+  overflow: hidden;
+
+  background-color: #0b2132;
+
+  border: 1px solid #294b63;
+  border-radius: 12px;
+}
+
+.members h2 {
+  margin: 0;
+  padding: 18px 20px;
+
+  border-bottom: 1px solid #294b63;
+
+  font-size: 20px;
+}
+
+.member {
+  padding: 18px 20px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #315872;
+  border-radius: 50%;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.information {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.information span {
+  color: #91a7ba;
+  font-size: 13px;
+}
+
+.role {
+  margin-left: auto;
+  padding: 6px 10px;
+
+  color: #49a8ff;
+  background-color: rgba(33, 139, 255, 0.12);
+
+  border-radius: 20px;
+
+  font-size: 12px;
+}

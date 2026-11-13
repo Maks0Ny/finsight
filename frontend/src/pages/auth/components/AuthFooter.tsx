@@ -1,5 +1,7 @@
 import brandMark from "../../../../assets/brand/finsight-mark.svg";
 
+import { Link } from "react-router";
+
 export function AuthFooter() {
   return (
     <footer className="site-footer">
@@ -20,7 +22,10 @@ export function AuthFooter() {
         className="site-footer__links"
         aria-label="Правовая информация"
       >
-        <a href="#">Конфиденциальность</a>
+        <Link to="/privacy">
+          Политика конфиденциальности
+        </Link>
+        
         <a href="#">Условия использования</a>
         <a href="#">Поддержка</a>
       </nav>

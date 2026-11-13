@@ -1,0 +1,147 @@
+.openButton {
+  width: 38px;
+  height: 38px;
+  padding: 8px;
+
+  display: grid;
+  place-items: center;
+
+  color: #b8cad8;
+  background: transparent;
+
+  border: none;
+  border-radius: 9px;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.openButton:hover {
+  color: #ffffff;
+  background-color: rgba(45, 105, 146, 0.18);
+}
+
+.openButton svg,
+.searchIcon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.openButton svg {
+  width: 22px;
+  height: 22px;
+}
+
+.search {
+  width: 330px;
+  height: 42px;
+  padding: 0 7px 0 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: #b8cad8;
+  background-color: #071725;
+
+  border: 1px solid #31546d;
+  border-radius: 10px;
+
+  box-shadow:
+    0 0 0 3px rgba(33, 139, 255, 0.08);
+}
+
+.search:focus-within {
+  border-color: #218bff;
+
+  box-shadow:
+    0 0 0 3px rgba(33, 139, 255, 0.14);
+}
+
+.searchIcon {
+  width: 18px;
+  height: 18px;
+
+  flex: 0 0 auto;
+}
+
+.input {
+  min-width: 0;
+  flex: 1;
+
+  color: #ffffff;
+  background: transparent;
+
+  border: none;
+  outline: none;
+
+  font: inherit;
+  font-size: 13px;
+}
+
+.input::placeholder {
+  color: #61798e;
+}
+
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.clearButton,
+.closeButton {
+  flex: 0 0 auto;
+
+  color: #849caf;
+  background: transparent;
+
+  border: none;
+  border-radius: 6px;
+
+  font: inherit;
+  cursor: pointer;
+}
+
+.clearButton {
+  width: 26px;
+  height: 26px;
+
+  font-size: 20px;
+  line-height: 1;
+}
+
+.closeButton {
+  padding: 6px 8px;
+  font-size: 11px;
+}
+
+.clearButton:hover,
+.closeButton:hover {
+  color: #ffffff;
+  background-color: rgba(33, 139, 255, 0.14);
+}
+
+.openButton:focus-visible,
+.clearButton:focus-visible,
+.closeButton:focus-visible {
+  outline: 3px solid rgba(33, 139, 255, 0.4);
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .search {
+    position: absolute;
+    z-index: 200;
+
+    top: 78px;
+    right: 16px;
+    left: 16px;
+
+    width: auto;
+  }
+}
